@@ -1,6 +1,6 @@
 import json
 from os import lockf
-from flask import Flask,jsonify,request
+from flask import Flask,jsonify,request,Response
 from flask_sqlalchemy import SQLAlchemy
 import client
 import hashlib
@@ -29,8 +29,7 @@ def query(name):
     data = json.loads(request.data)
     for i,item in enumerate():
         if item["name"] == name:
-            return i
-            break
+            return {"exe_id": exe_id, "success": True, "result": item}     
     return jsonify({"error": "todo item not found"}), 404
 
 
@@ -42,9 +41,8 @@ def buy(name,quantity):
             if (quantity<=item["quantity"]):
                 finalprice = item["price"]*quantity
                 item["quantity"] -= quantity
-                return finalprice
-            else: return jsonify({"error": "quantity exceed"},404)    
-                
+                return {"exe_id": exe_id, "success": True, "result": item}
+            else: return jsonify({"error": "todo item not found"}), 404
 
 @app.route("/replenish/<name:string>/<quantity:int>",method=["POST"])
 def replenish(name,quantity):
@@ -52,15 +50,12 @@ def replenish(name,quantity):
     for i,item in enumerate():
         if item["name"] == name:
             item["quantity"] += quantity
-            return item["quantity"]
-        else: return jsonify({"error": "todo item not found"},404)
-    
-
-
-
+            return {"exe_id": exe_id, "success": True, "result": item}
+        else: return jsonify({"error": "todo item not found"}), 404
 
 if __name__ == "__main__":
     a_string = get_daytime(HOST,PORT)
     exe_id = hashlib.sha256(a_string.encode("utf-8")).hexdigest()  
+    print(exe_id)
     app.run()
     

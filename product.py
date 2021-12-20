@@ -73,3 +73,6 @@ items = [ {
         }
  ]    
 
+item = json.dumps(items)
+
+print(item)
