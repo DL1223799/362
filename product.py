@@ -73,6 +73,16 @@ items = [ {
         }
  ]    
 
-item = json.dumps(items)
+credits = {
+    "creditNo" : 1111222233334444,
+    "ccv": 123
+}
+FILENAME = "product.json"
+with open(FILENAME, "w") as file:
+    json.dump(items, file, indent=4)
+with open(FILENAME) as file:
+    load_data = json.load(file)
 
+item = json.dumps(items)
 print(item)
+print(load_data)
