@@ -1,7 +1,7 @@
 import json
 
 
-items = [ {
+items = {"items":[ {
             "id":0,
             "name":"apple",
             "description":"a fruit",
@@ -72,17 +72,16 @@ items = [ {
             "quantity":5
         }
  ]    
-
-creditC = {
-    "creditNo" : 1111222233334444,
-    "ccv": 123
 }
+
 FILENAME = "product.json"
 with open(FILENAME, "w") as file:
     json.dump(items, file, indent=4)
 with open(FILENAME) as file:
     load_data = json.load(file)
 
-item = json.dumps(items)
-print(item)
-print(load_data)
+
+
+print(load_data["items"][0])
+
+
